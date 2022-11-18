@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import Form from "./components/Form";
+import Header from "./components/Header";
+import PlusButton from "./components/PlusButton";
+import TaskList from "./components/TaskList";
 
 function App() {
+  const [showForm, setShowForm] = useState(false)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className='container relative bg-darkPurple mx-auto max-w-lg p-4 box-border min-h-screen'>
+      <Header />
+      <TaskList />
+      <Form show={showForm} onClose={() => setShowForm(false)}/>
+      <PlusButton onClick={() => setShowForm(!showForm)} />
+    </main>
   );
 }
 
