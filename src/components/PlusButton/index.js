@@ -26,7 +26,7 @@ function PlusButton(props) {
   return (
     <div 
       className='absolute transform -translate-x-1/2 -translate-y-1/2 text-white font-semibold text-xl' 
-      style={{ left: '50%', bottom: '2%'}}
+      style={{ left: '50%', bottom: '6%'}}
       onClick={onClick}>
         <PlusIcon size='50' background='none' color='white'/>
     </div>

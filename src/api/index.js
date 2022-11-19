@@ -1,11 +1,12 @@
 import axios from 'axios'
 
-
-const DELETE_TODO = 'http://localhost:8000/api/delete-todo'
-const GET_TODO = 'http://localhost:8000/api/todo'
-const GET_TODOS = 'http://localhost:8000/api/todos'
-const POST_TODO = 'http://localhost:8000/api/add-todo'
-const UPDATE_TODO = 'http://localhost:8000/api/update-todo'
+const baseUrl = process.env.REACT_APP_API_URL
+// const baseUrl = 'https://apitodo.cherdianto.site'
+const DELETE_TODO = `${baseUrl}/api/delete-todo`
+const GET_TODO = `${baseUrl}/api/todo`
+const GET_TODOS = `${baseUrl}/api/todos`
+const POST_TODO = `${baseUrl}/api/add-todo`
+const UPDATE_TODO = `${baseUrl}/api/update-todo`
 
 // SEPERATION OF CONCERN : SETIAP FUNCTION HANYA MELAKUKAN 1 FUNGSI/TUGAS
 // MAKA DISINI DIPISAH ANTARA POST DAN GET. SO, TIDAK ADA RESPONSE DARI AXIOS.POST
@@ -22,7 +23,7 @@ export const deleteTodo = async (id) => {
 export const getTodo = async (id) => {
     try {
         const response = await axios.get(`${GET_TODO}/${id}`)
-        console.log(response.data)
+        // console.log(response.data)
         return response.data
     } catch (error) {
         throw new Error(error)
