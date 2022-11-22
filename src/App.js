@@ -7,7 +7,7 @@ import TaskList from "./components/TaskList";
 function App() {
   const [showForm, setShowForm] = useState(false)
   return (
-    <main className='container relative bg-darkPurple mx-auto max-w-lg p-4 box-border min-h-screen'>
+    <main className='container relative bg-darkGray mx-auto max-w-lg p-4 box-border min-h-screen'>
       <Header />
       <TaskList />
       <Form show={showForm} onClose={() => setShowForm(false)}/>

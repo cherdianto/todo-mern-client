@@ -2,16 +2,20 @@ import React, { useState } from 'react'
 import DeleteModal from '../DeleteModal'
 import classnames from 'classnames'
 import { useMutation, useQueryClient } from 'react-query'
-import { updateTodo, deleteTodo } from '../../api'
+import { updateStatusTodo, updateTitleTodo, deleteTodo } from '../../api'
 import CheckIcon from '../../assets/icon/check'
 import DeleteIcon from '../../assets/icon/delete'
+import EditIcon from '../../assets/icon/edit'
+import Form from '../Form/index'
+import EditModal from '../EditModal'
 
 function TaskCard({ title, taskId, status }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
 
   const cache = useQueryClient()
 
-  const checkTodo = useMutation(updateTodo, {
+  const checkTodo = useMutation(updateStatusTodo, {
     onSuccess: () => {
       cache.invalidateQueries('todos')
     }
@@ -23,6 +27,13 @@ function TaskCard({ title, taskId, status }) {
     }
   })
 
+  const editTodo = useMutation(updateTitleTodo, {
+    onSuccess: () => {
+      cache.invalidateQueries('todos')
+    }
+  })
+
+
   const handleRemoveTodo = (stat) => {
     if(stat === 'delete'){
       removeTodo.mutate(taskId)
@@ -32,6 +43,22 @@ function TaskCard({ title, taskId, status }) {
     if(stat === 'cancel'){
       setShowDeleteModal(false)
     }
+  }
+
+  const handleEditTodo = (stat) => {
+    if(stat === 'cancel'){
+      setShowEditModal(false)
+    }
+  }
+
+  const handleUpdateTodo = async (data) => {
+    data.id = taskId
+    try {
+      await editTodo.mutate(data)
+    } catch (error) {
+      throw new Error(error)
+    }
+    setShowEditModal(false)
   }
 
   const containerClass = classnames('flex justify-center items-center relative rounded-lg shadow-lg p-4 mb-2 bg-white', {
@@ -48,10 +75,11 @@ function TaskCard({ title, taskId, status }) {
         <p className={titleClass}>
             {title}
         </p>
-        <div className="flex text-darkPurple gap-2">
+        <div className="flex text-darkPurple gap-1">
             {/* <span>Check</span>  */}
-            <span onClick={() => checkTodo.mutate(taskId)}><CheckIcon size='24' color={status === 'pending' ? 'green' : 'black'} background='transparent'/></span> 
-            <span onClick={() => setShowDeleteModal(true)}><DeleteIcon size='24' color={status === 'pending' ? 'red' : 'black'} background='transparent' /></span>
+            <span onClick={() => setShowEditModal(true)}><EditIcon size='22' color={status === 'pending' ? 'brown' : 'black'} background='transparent'/></span> 
+            <span onClick={() => checkTodo.mutate(taskId)}><CheckIcon size='22' color={status === 'pending' ? 'green' : 'black'} background='transparent'/></span> 
+            <span onClick={() => setShowDeleteModal(true)}><DeleteIcon size='22' color={status === 'pending' ? 'red' : 'black'} background='transparent' /></span>
         </div>
 
         <DeleteModal 
@@ -60,6 +88,15 @@ function TaskCard({ title, taskId, status }) {
           onDelete={() => handleRemoveTodo('delete')}
           onCancel={() => handleRemoveTodo('cancel')}
         />
+
+        <EditModal
+          show={showEditModal}
+          taskStatus={status}
+          taskTitle={title}
+          taskId={taskId} 
+          onUpdate={(data) => handleUpdateTodo(data)}
+          onCancel={() => handleEditTodo('cancel')}
+          />
     </div>
   )
 }

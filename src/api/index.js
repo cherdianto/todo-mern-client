@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const baseUrl = process.env.REACT_APP_API_URL
+const baseUrl = process.env.REACT_APP_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_DEV
+
+console.log(baseUrl)
 // const baseUrl = 'https://apitodo.cherdianto.site'
 const DELETE_TODO = `${baseUrl}/api/delete-todo`
 const GET_TODO = `${baseUrl}/api/todo`
@@ -54,7 +56,7 @@ export const postTodo = async (data) => {
 
 
 // THIS SERVICE WILL ONLY CHANGE THE STATUS OF TODO, SWITCHING FROM DONE TO PENDING OR PENDING TO DONE
-export const updateTodo = async (id) => {
+export const updateStatusTodo = async (id) => {
     // get the data from server
     const getTodoResponse = await getTodo(id)
     // console.log(getTodoResponse)
@@ -62,6 +64,26 @@ export const updateTodo = async (id) => {
     if(getTodoResponse){
         const title = getTodoResponse.title
         const status = getTodoResponse.status === 'pending' ? 'done' : 'pending'
+        
+        try {
+            await axios.put(`${UPDATE_TODO}/${id}`, {
+                title,
+                status
+            })
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+}
+
+// THIS SERVICE WILL ONLY CHANGE THE TITLE OF TODO
+export const updateTitleTodo = async (data) => {
+    // get the data from server
+    const { title, id } = data
+    const getTodoResponse = await getTodo(id)
+
+    if(getTodoResponse){
+        const status = getTodoResponse.status
         
         try {
             await axios.put(`${UPDATE_TODO}/${id}`, {
