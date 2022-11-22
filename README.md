@@ -19,18 +19,18 @@ It uses some dependencies such as
 
 
 ## HOW TO INSTALL
-####Clone repo
-    git clone https://github.com/cherdianto/todo-mern-client.git
+#### Clone repo
+> git clone https://github.com/cherdianto/todo-mern-client.git
 
 
-####Install all dependencies
+#### Install all dependencies
     npm install
 
-####Add .env file and type below variable
-    REACT_APP_ENV=development
-    REACT_APP_API_URL_DEV=http://localhost:3006
+#### Add .env file and type below variable
+> REACT_APP_ENV=development
+> REACT_APP_API_URL_DEV=http://localhost:3006
 
 
 
-####Run the application, before doing this, make sure you already run the server
-    npm start
+#### Run the application, before doing this, make sure you already run the server
+> npm start
