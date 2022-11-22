@@ -6,7 +6,6 @@ import { updateStatusTodo, updateTitleTodo, deleteTodo } from '../../api'
 import CheckIcon from '../../assets/icon/check'
 import DeleteIcon from '../../assets/icon/delete'
 import EditIcon from '../../assets/icon/edit'
-import Form from '../Form/index'
 import EditModal from '../EditModal'
 
 function TaskCard({ title, taskId, status }) {

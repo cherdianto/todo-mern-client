@@ -36,16 +36,13 @@ const overlayTransitionStyles = {
 
 function EditModal(props) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
-    const { show, taskStatus, taskTitle, taskId, onCancel, onUpdate } = props
+    const { show, taskTitle, onCancel, onUpdate } = props
     const modalRef = useRef()
     const overlayRef = useRef()
 
     const onSubmit = async (data) => {
         try {
-            // console.log('updating', taskStatus, taskTitle, taskId)
-            // console.log(data)
             onUpdate(data)
-            
         } catch (error) {
             throw new Error(error)
         }
@@ -56,7 +53,6 @@ function EditModal(props) {
         onCancel()
     }
 
-    // alert('tes')
     return (
         <Transition
             nodeRef={modalRef}
@@ -76,7 +72,6 @@ function EditModal(props) {
 
                     <div ref={modalRef} style={{ ...defaultStyle, ...transitionStyles[state] }}>
                         <div className='bg-white p-4 h-40 w-100 rounded-lg fixed z-10 transform -translate-x-1/2 -translate-y-1/2 shadow-lg' style={{ left: '50%', top: '50%' }}>
-                            {/* <div className="flex flex-col h-full justify-between"> */}
                             <form
                                 onSubmit={handleSubmit(onSubmit)}
                             >
@@ -101,7 +96,6 @@ function EditModal(props) {
                                     </div>
                                 </div>
                             </form>
-                            {/* </div> */}
                         </div>
                     </div>
                 </>
